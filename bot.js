@@ -3,18 +3,18 @@ var config = require('./config');
 
 var Twitter = new twit(config);
 
-Twitter.get('search/tweets', { q: 'web developer intern filter:links', count: 5}, function(err, data, response) {
-  console.log(data);
+Twitter.get('search/tweets', { q: '"developer intern" filter:links -filter:retweets'}, function(err, data, response) {
+   console.log(data.statuses[0]);
 });
 
 // find latest tweet according the query 'q' in params
 var retweet = function() {
     var params = {
-        q: 'web developer intern filter:links',  // REQUIRED
+        q: '"developer intern" filter:links -filter:retweets',  // REQUIRED
         result_type: 'recent',
-        lang: 'en',
+        lang: 'en'
     };
-    // for more parametes, see: https://dev.twitter.com/rest/reference/get/search/tweets
+    // for more parameters, see: https://dev.twitter.com/rest/reference/get/search/tweets
 
     Twitter.get('search/tweets', params, function(err, data) {
       // if there no errors
@@ -42,6 +42,6 @@ var retweet = function() {
 };
 
 // grab & retweet as soon as program is running...
-//retweet();
-// retweet in every 2 minutes
-//setInterval(retweet, 150000);
+retweet();
+// retweet in every 15 seconds
+setInterval(retweet, 90000);
